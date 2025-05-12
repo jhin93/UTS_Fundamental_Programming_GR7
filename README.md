@@ -85,18 +85,145 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+The project was developed in **Python**, well-suited for both CLI and GUI (using a library like Tkinter for the GUI). The structure assumes a single project directory containing both CLIUniApp and GUIUniApp, with shared model classes to ensure consistency in data handling.
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+---
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+### File Source Tree Structure
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+Below is the proposed file source tree structure for the project. It includes separate directories for CLI and GUI components, shared model classes, and utility functions. Each file is described to clarify its purpose and how it supports the roles of the CLI and GUI developers.
 
-Use the `BLANK_README.md` to get started.
+
+university_app/
+├── cli/
+│   ├── controllers/
+│   │   ├── student_controller.py
+│   │   ├── admin_controller.py
+│   │   └── university_controller.py
+│   ├── views/
+│   │   ├── student_view.py
+│   │   ├── admin_view.py
+│   │   └── university_view.py
+│   └── main.py
+├── gui/
+│   ├── views/
+│   │   ├── login_view.py
+│   │   ├── enrollment_view.py
+│   │   ├── subject_view.py
+│   │   └── exception_view.py
+│   ├── controllers/
+│   │   └── gui_controller.py
+│   └── main.py
+├── models/
+│   ├── student.py
+│   ├── subject.py
+│   └── database.py
+├── utils/
+│   ├── validators.py
+│   └── id_generator.py
+├── data/
+│   └── students.data
+└── README.md
+
+
+---
+
+### Detailed Description of Files
+
+#### Root Directory: `university_app/`
+- **README.md**: Documentation specifying how to run the CLI and GUI applications, required dependencies (e.g., Python version, Tkinter for GUI), and any additional setup instructions. This ensures clarity for the Part 3 showcase and submission.
+
+#### Directory: `cli/`
+Contains files for CLIUniApp, split into controllers (logic) and views (user interface). The two CLI developers can divide responsibilities, with one focusing on student-related functionality and the other on admin-related functionality.
+
+- **controllers/**
+  - **student_controller.py**: Handles student system logic (registration, login, subject enrollment, removal, password changes). Interacts with `Student`, `Subject`, and `Database` models. Managed by the CLI developer responsible for the student subsystem.
+  - **admin_controller.py**: Manages admin system logic (viewing students, grouping by grade, partitioning PASS/FAIL, removing students, clearing database). Interacts with the `Database` model. Managed by the CLI developer responsible for the admin subsystem.
+  - **university_controller.py**: Controls the main university system menu, allowing navigation between student and admin subsystems. This can be handled by either CLI developer, as it’s a simple entry point.
+
+- **views/**
+  - **student_view.py**: Implements the CLI interface for student operations (menus for login, registration, and subject enrollment). Displays prompts and outputs per the sample I/O in `fundamental_final.pdf`. Managed by the student CLI developer.
+  - **admin_view.py**: Implements the CLI interface for admin operations (menus for listing, grouping, partitioning, and deleting students). Follows sample I/O formatting. Managed by the admin CLI developer.
+  - **university_view.py**: Displays the main university system menu (`(A) Admin`, `(S) Student`, `(X) Exit`). Simple and can be handled by either CLI developer.
+
+- **main.py**: Entry point for CLIUniApp. Initializes the university system and starts the main menu loop. Either CLI developer can manage this file, as it integrates the controllers and views.
+
+#### Directory: `gui/`
+Contains files for GUIUniApp, focusing on the student-specific graphical interface with at least four windows (login, enrollment, subject, exception). The two GUI developers can split responsibilities, with one focusing on the login and exception windows and the other on the enrollment and subject windows.
+
+- **views/**
+  - **login_view.py**: Implements the login window using Tkinter, allowing students to input email and password. Validates credentials and redirects to the enrollment window. Managed by one GUI developer.
+  - **enrollment_view.py**: Implements the enrollment window, enabling students to enroll in up to 4 subjects. Displays the current enrollment count and handles enrollment requests. Managed by the second GUI developer.
+  - **subject_view.py**: Implements the subject window, listing enrolled subjects with their marks and grades. Managed by the second GUI developer.
+  - **exception_view.py**: Implements the exception window, displaying error messages for invalid credentials, empty fields, or exceeding the 4-subject limit. Managed by the first GUI developer.
+
+- **controllers/**
+  - **gui_controller.py**: Manages the logic for GUIUniApp, coordinating between views and models. Handles login validation, subject enrollment, and error handling. Shared by both GUI developers, with clear method divisions (e.g., login-related vs. enrollment-related).
+
+- **main.py**: Entry point for GUIUniApp. Initializes the Tkinter application and displays the login window. Managed by either GUI developer.
+
+#### Directory: `models/`
+Contains shared model classes used by both CLI and GUI applications to ensure data consistency. These are critical for all developers and should be developed early by one of the CLI or GUI developers with strong modeling skills.
+
+- **student.py**: Defines the `Student` class with fields (`id`, `name`, `email`, `password`, `subjects`) and methods for enrollment, password changes, and grade calculation.
+- **subject.py**: Defines the `Subject` class with fields (`id`, `mark`, `grade`) and logic for mark generation and grade calculation.
+- **database.py**: Manages `students.data` file operations (create, read, write, clear). Ensures thread-safe access for CLI and GUI.
+
+#### Directory: `utils/`
+Contains utility functions shared across CLI and GUI applications to avoid code duplication.
+
+- **validators.py**: Implements regular expressions for email (`@university.com`) and password (uppercase start, 5+ letters, 3+ digits) validation. Used by both CLI and GUI for consistent input validation.
+- **id_generator.py**: Provides functions for generating unique student IDs (6-digit) and subject IDs (3-digit) with zero-padding. Used by model classes.
+
+#### Directory: `data/`
+- **students.data**: The file storing student data (serialized Student objects). Created and managed by the `Database` class. Both CLI and GUI applications read/write to this file.
+
+---
+
+### Role Assignment and File Responsibilities
+To align with your decision of 2 CLI and 2 GUI developers, here’s how the files map to roles:
+
+- **CLI Developer 1 (Student Subsystem)**:
+  - Primary: `cli/controllers/student_controller.py`, `cli/views/student_view.py`.
+  - Secondary: `cli/main.py`, `cli/controllers/university_controller.py`, `cli/views/university_view.py` (shared with CLI Developer 2).
+  - Collaboration: Uses `models/*` and `utils/*`.
+
+- **CLI Developer 2 (Admin Subsystem)**:
+  - Primary: `cli/controllers/admin_controller.py`, `cli/views/admin_view.py`.
+  - Secondary: `cli/main.py`, `cli/controllers/university_controller.py`, `cli/views/university_view.py` (shared with CLI Developer 1).
+  - Collaboration: Uses `models/*` and `utils/*`.
+
+- **GUI Developer 1 (Login and Exception)**:
+  - Primary: `gui/views/login_view.py`, `gui/views/exception_view.py`.
+  - Secondary: `gui/controllers/gui_controller.py` (login-related methods), `gui/main.py` (shared with GUI Developer 2).
+  - Collaboration: Uses `models/*` and `utils/*`.
+
+- **GUI Developer 2 (Enrollment and Subject)**:
+  - Primary: `gui/views/enrollment_view.py`, `gui/views/subject_view.py`.
+  - Secondary: `gui/controllers/gui_controller.py` (enrollment-related methods), `gui/main.py` (shared with GUI Developer 1).
+  - Collaboration: Uses `models/*` and `utils/*`.
+
+- **Shared Responsibility**:
+  - The `models/*` and `utils/*` directories are critical for all developers. One developer (preferably with strong data modeling skills, e.g., CLI Developer 1 or GUI Developer 1) should take the lead on these early in the project, with others providing input and testing.
+
+---
+
+### Rationale for Structure
+- **Modularity**: Separating `models`, `controllers`, and `views` follows MVC (Model-View-Controller) principles, making the codebase maintainable and scalable.
+- **Separation of CLI and GUI**: Dedicated `cli/` and `gui/` directories ensure that CLIUniApp and GUIUniApp are distinct, with shared `models/` and `utils/` to avoid duplication.
+- **Shared Data**: The single `students.data` file is managed by `database.py`, ensuring consistency between CLI and GUI applications.
+- **Alignment with Requirements**: The structure supports all required functionalities (student registration/login, subject enrollment, admin operations, GUI windows) and adheres to the sample I/O in `fundamental_final.pdf`.
+- **Team Collaboration**: Files are grouped to allow each developer to focus on specific components while sharing critical model and utility code.
+
+---
+
+### Additional Notes
+- **Dependencies**: The GUI will use Tkinter (Python’s standard library) for simplicity and compatibility. CLI requires no additional libraries beyond Python’s standard library.
+- **File Format for `students.data`**: Consider using JSON or pickle for serialization, implemented in `database.py`. JSON is human-readable and easier for debugging.
+- **Version Control**: Use Git for collaboration, with each developer working on their respective files and merging changes to `models/` and `utils/` carefully.
+- **Submission**: Per `fundamental_final.pdf`, the project will be submitted as a `.zip` file (`group<group-number>-Cmp1<lab-number>.zip`). Include both CLI and GUI in the same folder, with `README.md` explaining how to run each.
+
+This structure ensures a clear division of work, supports the project’s requirements, and facilitates collaboration among the four team members. Let me know if you need further details or specific code snippets for any file!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
