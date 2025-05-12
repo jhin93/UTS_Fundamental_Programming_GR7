@@ -93,37 +93,8 @@ The project was developed in **Python**, well-suited for both CLI and GUI (using
 
 Below is the proposed file source tree structure for the project. It includes separate directories for CLI and GUI components, shared model classes, and utility functions. Each file is described to clarify its purpose and how it supports the roles of the CLI and GUI developers.
 
+<img width="294" alt="tree" src="https://github.com/user-attachments/assets/22be48dc-eb8f-4ba3-82e7-04aab4e67ee7" />
 
-university_app/
-├── cli/
-│   ├── controllers/
-│   │   ├── student_controller.py
-│   │   ├── admin_controller.py
-│   │   └── university_controller.py
-│   ├── views/
-│   │   ├── student_view.py
-│   │   ├── admin_view.py
-│   │   └── university_view.py
-│   └── main.py
-├── gui/
-│   ├── views/
-│   │   ├── login_view.py
-│   │   ├── enrollment_view.py
-│   │   ├── subject_view.py
-│   │   └── exception_view.py
-│   ├── controllers/
-│   │   └── gui_controller.py
-│   └── main.py
-├── models/
-│   ├── student.py
-│   ├── subject.py
-│   └── database.py
-├── utils/
-│   ├── validators.py
-│   └── id_generator.py
-├── data/
-│   └── students.data
-└── README.md
 
 
 ---
