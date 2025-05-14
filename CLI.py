@@ -14,7 +14,7 @@ class Subject:
         self.grade = self.calculate_grade()
 
     def calculate_grade(self):
-        if self.mark >= 85:xs
+        if self.mark >= 85:
             return 'HD'
         elif self.mark >= 75:
             return 'D'
