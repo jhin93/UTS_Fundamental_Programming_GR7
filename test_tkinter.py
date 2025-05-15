@@ -1,7 +1,9 @@
 import tkinter as tk
 
 root = tk.Tk()
-root.title("My App")
-label = tk.Label(root, text="Hello, Tkinter!")
-label.pack()
+root.geometry("720x360")
+root.title("My First GUI App")
+
+root.configure(bg="light gray")
+root.resizable(False, False)
 root.mainloop()
