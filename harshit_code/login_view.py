@@ -1,7 +1,7 @@
 import tkinter as tkt
 from tkinter import messagebox
 from gui_controller import handle_login
-from harshit_code.exception_view import show_exception
+from exception_view import show_exception
 
 
 class LoginView:
