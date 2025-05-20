@@ -1,47 +1,67 @@
 import tkinter as tk
-from tkinter import simpledialog, messagebox
-import csv
-import random
+from tkinter import messagebox, simpledialog
+import pickle
 import os
+import random
 import re
 
-DATA_FILE = 'students.csv'
+DATA_FILE = 'students.data'
 
-# ---------- CSV Functions ----------
+# -------------------- Models (identical to your CLI version) --------------------
+class Subject:
+    def __init__(self):
+        self.subject_id = f"{random.randint(1, 999):03}"
+        self.mark = random.randint(25, 100)
+        self.grade = self.calculate_grade()
+
+    def calculate_grade(self):
+        if self.mark >= 85:
+            return 'HD'
+        elif self.mark >= 75:
+            return 'D'
+        elif self.mark >= 65:
+            return 'C'
+        elif self.mark >= 50:
+            return 'P'
+        else:
+            return 'F'
+
+class Student:
+    def __init__(self, name, email, password):
+        self.student_id = f"{random.randint(1, 999999):06}"
+        self.name = name
+        self.email = email
+        self.password = password
+        self.enrolled_subjects = []
+
+    def enrol_subject(self):
+        if len(self.enrolled_subjects) < 4:
+            subject = Subject()
+            self.enrolled_subjects.append(subject)
+            return subject
+        else:
+            return None
+
+    def remove_subject(self, subject_id):
+        before = len(self.enrolled_subjects)
+        self.enrolled_subjects = [s for s in self.enrolled_subjects if s.subject_id != subject_id]
+        return len(self.enrolled_subjects) < before
+
+# -------------------- Data Source --------------------
 def load_students():
-    students = []
     if not os.path.exists(DATA_FILE):
-        return students
-    with open(DATA_FILE, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            student = dict(row)
-            # Decode enrolled_subjects
-            enrolled = []
-            if student['enrolled_subjects']:
-                for subj in student['enrolled_subjects'].split('|'):
-                    sid, mark, grade = subj.split(',')
-                    enrolled.append({'subject_id': sid, 'mark': int(mark), 'grade': grade})
-            student['enrolled_subjects'] = enrolled
-            students.append(student)
-    return students
+        return []
+    with open(DATA_FILE, 'rb') as f:
+        return pickle.load(f)
 
 def save_students(students):
-    with open(DATA_FILE, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['student_id', 'name', 'email', 'password', 'enrolled_subjects']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        for s in students:
-            # Encode enrolled_subjects
-            enrolled = '|'.join(f"{sub['subject_id']},{sub['mark']},{sub['grade']}" for sub in s['enrolled_subjects'])
-            data = s.copy()
-            data['enrolled_subjects'] = enrolled
-            writer.writerow(data)
+    with open(DATA_FILE, 'wb') as f:
+        pickle.dump(students, f)
 
-def find_student(email, password=None):
+def find_student(email, password):
     students = load_students()
     for s in students:
-        if s['email'] == email and (password is None or s['password'] == password):
+        if s.email == email and s.password == password:
             return s
     return None
 
@@ -51,188 +71,130 @@ def validate_email(email):
 def validate_password(password):
     return re.match(r'^[A-Z][a-zA-Z]{4,}\d{3,}$', password)
 
-def calc_grade(mark):
-    mark = int(mark)
-    if mark >= 85:
-        return 'HD'
-    elif mark >= 75:
-        return 'D'
-    elif mark >= 65:
-        return 'C'
-    elif mark >= 50:
-        return 'P'
-    else:
-        return 'F'
-
-def average_mark(student):
-    enrolled = student['enrolled_subjects']
-    if not enrolled:
-        return 0
-    return sum(sub['mark'] for sub in enrolled) / len(enrolled)
-
-# ---------- Main GUI ----------
-class App(tk.Tk):
+# -------------------- GUI --------------------
+class GUIUniApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("University Student App")
-        self.geometry("400x300")
-        self.show_main_menu()
-
-    def show_main_menu(self):
-        self.clear()
-        tk.Label(self, text="University App", font=("Arial", 16)).pack(pady=10)
-        tk.Button(self, text="Student", width=20, command=self.student_menu).pack(pady=10)
-        tk.Button(self, text="Exit", width=20, command=self.quit).pack(pady=10)
+        self.title("GUIUniApp - UTS FEIT")
+        self.geometry("350x270")
+        self.logged_in_student = None
+        self.show_login()
 
     def clear(self):
         for widget in self.winfo_children():
             widget.destroy()
 
-    def student_menu(self):
+    # 1. Login Window
+    def show_login(self):
         self.clear()
-        tk.Label(self, text="Student Menu", font=("Arial", 14)).pack(pady=10)
-        tk.Button(self, text="Register", width=20, command=self.register_window).pack(pady=5)
-        tk.Button(self, text="Login", width=20, command=self.login_window).pack(pady=5)
-        tk.Button(self, text="Back", width=20, command=self.show_main_menu).pack(pady=5)
-
-    def register_window(self):
-        def submit():
-            name = name_entry.get()
-            email = email_entry.get()
-            password = password_entry.get()
-            if not validate_email(email):
-                messagebox.showerror("Error", "Email must end with @university.com")
-                return
-            if not validate_password(password):
-                messagebox.showerror("Error", "Invalid password format.\nMust start with an uppercase letter, followed by at least 4 letters, and end with at least 3 digits.")
-                return
-            students = load_students()
-            if any(s['email'] == email for s in students):
-                messagebox.showerror("Error", "Student already registered.")
-                return
-            student_id = f"{random.randint(1, 999999):06}"
-            students.append({
-                'student_id': student_id,
-                'name': name,
-                'email': email,
-                'password': password,
-                'enrolled_subjects': []
-            })
-            save_students(students)
-            messagebox.showinfo("Success", f"Registered with ID: {student_id}")
-            win.destroy()
-
-        win = tk.Toplevel(self)
-        win.title("Register")
-        tk.Label(win, text="Name").pack()
-        name_entry = tk.Entry(win)
-        name_entry.pack()
-        tk.Label(win, text="Email").pack()
-        email_entry = tk.Entry(win)
+        tk.Label(self, text="University App", font=("Arial", 16)).pack(pady=10)
+        tk.Label(self, text="Email:").pack()
+        email_entry = tk.Entry(self)
         email_entry.pack()
-        tk.Label(win, text="Password").pack()
-        password_entry = tk.Entry(win, show="*")
+        tk.Label(self, text="Password:").pack()
+        password_entry = tk.Entry(self, show="*")
         password_entry.pack()
-        tk.Button(win, text="Register", command=submit).pack(pady=5)
 
-    def login_window(self):
-        def submit():
-            email = email_entry.get()
-            password = password_entry.get()
+        def login_action():
+            email = email_entry.get().strip()
+            password = password_entry.get().strip()
+            if not email or not password:
+                messagebox.showerror("Login Error", "All fields must be filled.")
+                return
+            if not validate_email(email):
+                messagebox.showerror("Login Error", "Email must end with @university.com")
+                return
             student = find_student(email, password)
             if student:
-                win.destroy()
-                self.student_dashboard(student)
+                self.logged_in_student = student
+                self.show_enrolment()
             else:
-                messagebox.showerror("Error", "Invalid credentials.")
+                messagebox.showerror("Login Error", "Incorrect credentials or student not registered.")
 
-        win = tk.Toplevel(self)
-        win.title("Login")
-        tk.Label(win, text="Email").pack()
-        email_entry = tk.Entry(win)
-        email_entry.pack()
-        tk.Label(win, text="Password").pack()
-        password_entry = tk.Entry(win, show="*")
-        password_entry.pack()
-        tk.Button(win, text="Login", command=submit).pack(pady=5)
-
-    def student_dashboard(self, student):
+        tk.Button(self, text="Login", width=20, command=login_action).pack(pady=7)
+        tk.Button(self, text="Register", width=20, command=self.show_register).pack()
+    
+    # 2. Registration Window
+    def show_register(self):
         self.clear()
-        tk.Label(self, text=f"Welcome {student['name']}", font=("Arial", 14)).pack(pady=10)
+        tk.Label(self, text="Student Registration", font=("Arial", 16)).pack(pady=10)
+        tk.Label(self, text="Name:").pack()
+        name_entry = tk.Entry(self)
+        name_entry.pack()
+        tk.Label(self, text="Email:").pack()
+        email_entry = tk.Entry(self)
+        email_entry.pack()
+        tk.Label(self, text="Password:").pack()
+        password_entry = tk.Entry(self, show="*")
+        password_entry.pack()
 
-        def change_password():
-            new_pass = simpledialog.askstring("Change Password", "Enter new password:", show="*")
-            if not new_pass:
+        def register_action():
+            name = name_entry.get().strip()
+            email = email_entry.get().strip()
+            password = password_entry.get().strip()
+            if not name or not email or not password:
+                messagebox.showerror("Registration Error", "All fields must be filled.")
                 return
-            if new_pass == student['password']:
-                messagebox.showerror("Error", "New password cannot be the same as the old password.")
-            elif not validate_password(new_pass):
-                messagebox.showerror("Error", "Invalid password format.")
-            else:
-                student['password'] = new_pass
-                students = load_students()
-                for s in students:
-                    if s['student_id'] == student['student_id']:
-                        s['password'] = new_pass
-                        break
-                save_students(students)
-                messagebox.showinfo("Success", "Password changed successfully.")
-
-        def enrol_subject():
-            if len(student['enrolled_subjects']) >= 4:
-                messagebox.showwarning("Limit", "Cannot enrol more than 4 subjects.")
+            if not validate_email(email):
+                messagebox.showerror("Registration Error", "Email must end with @university.com")
                 return
-            subj_id = f"{random.randint(1, 999):03}"
-            mark = random.randint(25, 100)
-            grade = calc_grade(mark)
-            student['enrolled_subjects'].append({'subject_id': subj_id, 'mark': mark, 'grade': grade})
+            if not validate_password(password):
+                messagebox.showerror("Registration Error", "Password must start with an uppercase letter, followed by at least 4 letters, and end with at least 3 digits.")
+                return
             students = load_students()
-            for s in students:
-                if s['student_id'] == student['student_id']:
-                    s['enrolled_subjects'] = student['enrolled_subjects']
-                    break
-            save_students(students)
-            messagebox.showinfo("Success", f"Subject {subj_id} enrolled with mark {mark} ({grade})")
-            show_subjects()
-
-        def remove_subject():
-            sid = simpledialog.askstring("Remove Subject", "Enter Subject ID to remove:")
-            if not sid:
+            if any(s.email == email for s in students):
+                messagebox.showerror("Registration Error", "Student already registered.")
                 return
-            before = len(student['enrolled_subjects'])
-            student['enrolled_subjects'] = [sub for sub in student['enrolled_subjects'] if sub['subject_id'] != sid]
-            after = len(student['enrolled_subjects'])
-            if after < before:
-                students = load_students()
-                for s in students:
-                    if s['student_id'] == student['student_id']:
-                        s['enrolled_subjects'] = student['enrolled_subjects']
-                        break
-                save_students(students)
-                messagebox.showinfo("Removed", f"Subject {sid} removed.")
-                show_subjects()
-            else:
-                messagebox.showwarning("Not Found", "Subject not found.")
+            student = Student(name, email, password)
+            students.append(student)
+            save_students(students)
+            messagebox.showinfo("Registered", "Registration successful! You may now log in.")
+            self.show_login()
 
-        def show_subjects():
-            subjects_text.delete('1.0', tk.END)
-            enrolled = student['enrolled_subjects']
-            if not enrolled:
-                subjects_text.insert(tk.END, "No subjects enrolled yet.\n")
-            else:
-                for subj in enrolled:
-                    subjects_text.insert(tk.END, f"Subject ID: {subj['subject_id']}, Mark: {subj['mark']}, Grade: {subj['grade']}\n")
-                subjects_text.insert(tk.END, f"\nAverage Mark: {average_mark(student):.2f}")
+        tk.Button(self, text="Register", width=20, command=register_action).pack(pady=7)
+        tk.Button(self, text="Back to Login", width=20, command=self.show_login).pack()
+    
+    # 3. Enrolment Window
+    def show_enrolment(self):
+        self.clear()
+        s = self.logged_in_student
+        tk.Label(self, text=f"Welcome, {s.name}", font=("Arial", 15)).pack(pady=10)
+        tk.Button(self, text="Enrol in New Subject", width=23, command=self.enrol_subject_action).pack(pady=5)
+        tk.Button(self, text="View My Subjects", width=23, command=self.show_subjects).pack(pady=5)
+        tk.Button(self, text="Logout", width=23, command=self.logout_action).pack(pady=5)
 
-        tk.Button(self, text="Change Password", width=20, command=change_password).pack(pady=3)
-        tk.Button(self, text="Enrol Subject", width=20, command=enrol_subject).pack(pady=3)
-        tk.Button(self, text="Remove Subject", width=20, command=remove_subject).pack(pady=3)
-        tk.Button(self, text="Show Subjects", width=20, command=show_subjects).pack(pady=3)
-        tk.Button(self, text="Logout", width=20, command=self.show_main_menu).pack(pady=10)
+    def enrol_subject_action(self):
+        s = self.logged_in_student
+        if len(s.enrolled_subjects) >= 4:
+            messagebox.showerror("Enrolment Error", "You cannot enrol in more than 4 subjects.")
+            return
+        subject = s.enrol_subject()
+        students = load_students()
+        # Update the student in the list and save
+        for idx, st in enumerate(students):
+            if st.email == s.email:
+                students[idx] = s
+                break
+        save_students(students)
+        messagebox.showinfo("Subject Enrolled", f"Subject {subject.subject_id} enrolled with mark {subject.mark} ({subject.grade}).")
+        self.show_enrolment()
 
-        subjects_text = tk.Text(self, width=40, height=8)
-        subjects_text.pack(pady=10)
-        show_subjects()
+    # 4. Subjects List Window
+    def show_subjects(self):
+        self.clear()
+        s = self.logged_in_student
+        tk.Label(self, text="My Subjects", font=("Arial", 16)).pack(pady=10)
+        if not s.enrolled_subjects:
+            tk.Label(self, text="You have not enrolled in any subjects yet.").pack()
+        else:
+            for subj in s.enrolled_subjects:
+                tk.Label(self, text=f"Subject ID: {subj.subject_id}, Mark: {subj.mark}, Grade: {subj.grade}").pack()
+        tk.Button(self, text="Back", width=20, command=self.show_enrolment).pack(pady=15)
+
+    def logout_action(self):
+        self.logged_in_student = None
+        self.show_login()
 
 if __name__ == "__main__":
-    App().mainloop()
+    GUIUniApp().mainloop()
+
