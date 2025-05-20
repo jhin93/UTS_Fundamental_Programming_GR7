@@ -42,14 +42,29 @@ class Student:
             print("Cannot enrol more than 4 subjects.")
 
     def remove_subject(self, subject_id):
+        initial_length = len(self.enrolled_subjects)
         self.enrolled_subjects = [s for s in self.enrolled_subjects if s.subject_id != subject_id]
+        if len(self.enrolled_subjects) < initial_length:
+            print(f"Subject {subject_id} removed.")
+        else:
+            print(f"Subject {subject_id} not found.")
+
 
     def change_password(self, new_password):
+        # We'll handle the old password check directly in student_menu for better flow
         self.password = new_password
 
     def view_enrolment(self):
+        if not self.enrolled_subjects:
+            print("No subjects enrolled yet.")
+            return
         for subj in self.enrolled_subjects:
             print(f"Subject ID: {subj.subject_id}, Mark: {subj.mark}, Grade: {subj.grade}")
+
+    def average_mark(self):
+        if not self.enrolled_subjects:
+            return 0
+        return sum(s.mark for s in self.enrolled_subjects) / len(self.enrolled_subjects)
 
 # -------------------- Database --------------------
 def load_students():
@@ -110,11 +125,13 @@ def student_menu(student, all_students):
         choice = input("Choose: ").lower()
         if choice == 'c':
             new_pass = input("New password: ")
-            if validate_password(new_pass):
+            if new_pass == student.password:
+                print("Error: New password cannot be the same as the old password.")
+            elif validate_password(new_pass):
                 student.change_password(new_pass)
-                print("Password changed.")
+                print("Password changed successfully.")
             else:
-                print("Invalid format.")
+                print("Error: Invalid new password format. Password must start with an uppercase letter, followed by at least 4 letters, and end with at least 3 digits.")
         elif choice == 'e':
             student.enrol_subject()
         elif choice == 'r':
@@ -128,10 +145,72 @@ def student_menu(student, all_students):
         else:
             print("Invalid option.")
 
+def admin_menu():
+    while True:
+        print("\nAdmin Menu:\n(s) Show all students\n(g) Group by grade\n(p) Partition Pass/Fail\n(r) Remove student\n(c) Clear all students\n(x) Exit")
+        choice = input("Choose: ").lower()
+        students = load_students()
+        if choice == 's':
+            if not students:
+                print("No students registered yet.")
+                continue
+            for s in students:
+                print(f"{s.student_id} - {s.name}, Avg Mark: {s.average_mark():.2f}")
+        elif choice == 'g':
+            grade_groups = {}
+            for s in students:
+                for subj in s.enrolled_subjects:
+                    grade_groups.setdefault(subj.grade, []).append(s)
+            if not grade_groups:
+                print("No subjects enrolled by any student to group by grade.")
+                continue
+            for grade, group in grade_groups.items():
+                print(f"\nGrade {grade}:")
+                for student in group:
+                    print(f"{student.student_id} - {student.name}")
+        elif choice == 'p':
+            if not students:
+                print("No students registered to partition.")
+                continue
+            pass_students = [s for s in students if s.average_mark() >= 50]
+            fail_students = [s for s in students if s.average_mark() < 50]
+            print("\n--- PASS ---")
+            if pass_students:
+                for s in pass_students:
+                    print(f"{s.student_id} - {s.name}")
+            else:
+                print("No students in the PASS category.")
+            print("\n--- FAIL ---")
+            if fail_students:
+                for s in fail_students:
+                    print(f"{s.student_id} - {s.name}")
+            else:
+                print("No students in the FAIL category.")
+        elif choice == 'r':
+            sid = input("Enter student ID to remove: ")
+            initial_length = len(students)
+            students = [s for s in students if s.student_id != sid]
+            if len(students) < initial_length:
+                save_students(students)
+                print(f"Student {sid} removed successfully.")
+            else:
+                print(f"Student {sid} not found.")
+        elif choice == 'c':
+            confirm = input("Are you sure you want to clear all student records? (yes/no): ").lower()
+            if confirm == 'yes':
+                save_students([])
+                print("All student records cleared.")
+            else:
+                print("Operation cancelled.")
+        elif choice == 'x':
+            break
+        else:
+            print("Invalid option.")
+
 # -------------------- Main CLI --------------------
 def main():
     while True:
-        print("\nUniversity Menu:\n(S) Student\n(X) Exit")
+        print("\nUniversity Menu:\n(A) Admin\n(S) Student\n(X) Exit")
         user_type = input("Select option: ").lower()
         if user_type == 's':
             print("\nStudent Menu:\n(r) Register\n(l) Login\n(x) Exit")
@@ -142,6 +221,10 @@ def main():
                 login()
             elif choice == 'x':
                 continue
+            else:
+                print("Invalid student menu option.")
+        elif user_type == 'a':
+            admin_menu()
         elif user_type == 'x':
             break
         else:
