@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
-from exception_view import validate_email, validate_password
+from .exception_view import validate_email, validate_password
 import sys
 import os
 
 # Add the parent directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from models.student import Student
 
 import pickle

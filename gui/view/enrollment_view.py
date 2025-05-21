@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from login_view import load_students, save_students
+from .login_view import load_students, save_students
 
 class EnrollmentView:
     def __init__(self, parent, student, show_subjects_callback, logout_callback):
