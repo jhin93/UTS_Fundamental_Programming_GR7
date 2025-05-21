@@ -41,6 +41,16 @@ class LoginView:
 
     def setup_ui(self):
         self.clear()
+        # Set window size to 720x360
+        self.parent.geometry("720x360")
+        # Center the window on the screen
+        self.parent.update_idletasks()
+        width = self.parent.winfo_width()
+        height = self.parent.winfo_height()
+        x = (self.parent.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.parent.winfo_screenheight() // 2) - (height // 2)
+        self.parent.geometry(f'{width}x{height}+{x}+{y}')
+        
         tk.Label(self.parent, text="University App", font=("Arial", 16)).pack(pady=10)
         tk.Label(self.parent, text="Email:").pack()
         self.email_entry = tk.Entry(self.parent)
