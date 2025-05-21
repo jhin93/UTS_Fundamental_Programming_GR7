@@ -1,16 +1,19 @@
 import tkinter as tk
-from tkinter import messagebox
-from .exception_view import validate_email, validate_password
 import sys
 import os
-
+import pickle
 # Add the parent directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from models.student import Student
+from tkinter import messagebox
+from .exception_view import validate_email, validate_password
 
-import pickle
+# Create data directory if it doesn't exist
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data')
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
 
-DATA_FILE = 'students.data'
+DATA_FILE = os.path.join(DATA_DIR, 'students.data')
 
 def load_students():
     if not os.path.exists(DATA_FILE):
