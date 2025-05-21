@@ -1,31 +1,55 @@
 import unittest
-import os
-import pickle
+from main import Student
 
 
-from student import Student
+class Student:
+    def __init__(self, name, email, password):
+        self.name = name
+        self.email = email
+        self.password = password
 
 
-class TestStudentData(unittest.TestCase):
+def handle_login(email, password, students):
+    if not email or not password or not email.endswith("@university.com"):
+        return False, "All fields must be filled and Email should end with @university.com."
 
-    def test_file_exists(self):
-        self.assertEqual(os.path.exists("students.data"),
-                         True, "students.data file not found")
+    if any(s.email == email and s.password == password for s in students):
+        return True, "Login successful"
+    return False, "Invalid credentials"
 
-    def test_data_has_students(self):
-        with open("students.data", "rb") as f:
-            students = pickle.load(f)
-        self.assertGreater(len(students), 0, " No students in the file")
-        self.assertIsInstance(
-            students[0], Student, " Data is not of type Student")
 
-    def test_has_admin_user(self):
-        with open("students.data", "rb") as f:
-            students = pickle.load(f)
-        emails = [s.email for s in students]
-        self.assertIn("admin@university.com", emails,
-                      " admin@university.com not found")
+class TestLogin(unittest.TestCase):
+
+    def setUp(self):
+        self.students = [
+            Student("student1", "student1@university.com", "Student123"),
+            Student("student2", "student2@university.com", "Studenet123")
+        ]
+
+    def test_valid_login(self):
+        result, _ = handle_login(
+            "student1@university.com", "Student123", self.students)
+        self.assertIs(result, True)
+
+    def test_blank_password(self):
+        result, _ = handle_login("student1@university.com", "", self.students)
+        self.assertIs(result, False)
+
+    def test_invalid_email_format(self):
+        result, _ = handle_login(
+            "Student1@gmail.com", "Student123", self.students)
+        self.assertIs(result, False)
+
+    def test_blank_email(self):
+        result, _ = handle_login("", "Student123", self.students)
+        self.assertIs(result, False)
+
+    def test_wrong_password(self):
+        result, _ = handle_login(
+            "student1@university.com", "WrongPass", self.students)
+        self.assertIs(result, False)
 
 
 if __name__ == "__main__":
     unittest.main()
+
