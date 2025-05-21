@@ -37,34 +37,19 @@ class Student:
         self.password = password
         self.enrolled_subjects = []
 
+    def enrol_subject(self):
+        if len(self.enrolled_subjects) < 4:
+            subject = Subject()
+            self.enrolled_subjects.append(subject)
+            return subject
+        else:
+            return None
 
-# Sample student data
-students = [
-    Student("Admin User", "admin@university.com", "Admin123"),
-    Student("Test Student", "student@university.com", "pass123")
-]
-
-# Write to file
-with open("students.data", "wb") as f:
-    pickle.dump(students, f)
-
-print("✅ students.data created")
-
-
-def enrol_subject(self):
-    if len(self.enrolled_subjects) < 4:
-        subject = Subject()
-        self.enrolled_subjects.append(subject)
-        return subject
-    else:
-        return None
-
-
-def remove_subject(self, subject_id):
-    before = len(self.enrolled_subjects)
-    self.enrolled_subjects = [
-        s for s in self.enrolled_subjects if s.subject_id != subject_id]
-    return len(self.enrolled_subjects) < before
+    def remove_subject(self, subject_id):
+        before = len(self.enrolled_subjects)
+        self.enrolled_subjects = [
+            s for s in self.enrolled_subjects if s.subject_id != subject_id]
+        return len(self.enrolled_subjects) < before
 
 # -------------------- Data Source --------------------
 
@@ -204,6 +189,7 @@ class GUIUniApp(tk.Tk):
                   command=self.enrol_subject_action).pack(pady=5)
         tk.Button(self, text="View My Subjects", width=23,
                   command=self.show_subjects).pack(pady=5)
+
         tk.Button(self, text="Logout", width=23,
                   command=self.logout_action).pack(pady=5)
 
@@ -246,3 +232,6 @@ class GUIUniApp(tk.Tk):
 
 if __name__ == "__main__":
     GUIUniApp().mainloop()
+
+
+
