@@ -3,7 +3,7 @@ import os
 import pickle
 
 
-from main import Student
+from student import Student
 
 
 class TestStudentData(unittest.TestCase):
