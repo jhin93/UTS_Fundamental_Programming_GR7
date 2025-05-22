@@ -16,6 +16,7 @@ class AdminController:
         return "Invalid admin credentials."
 
     def list_students(self):
+        self.refresh_db()  # Ensure we have the latest data
         if not self.students:
             return "No students found."
         return "\n".join([
@@ -24,19 +25,25 @@ class AdminController:
         ])
 
     def group_by_grade(self):
+        self.refresh_db()
         grade_groups = {}
-        for s in self.students:
-            for subj in s.enrolled_subjects:
-                grade_groups.setdefault(subj.grade, []).append(s)
+
+        for student in self.students:
+            for subj in student.enrolled_subjects:
+                grade_groups.setdefault(subj.grade, []).append((student, subj))
+
+        if not grade_groups:
+            return "No subjects found."
 
         result = []
-        for grade, group in grade_groups.items():
+        for grade, records in grade_groups.items():
             result.append(f"\nGrade {grade}:")
-            for student in group:
-                result.append(f"{student.student_id} - {student.name}")
-        return "\n".join(result) if result else "No subjects found."
+            for student, subject in records:
+                result.append(f"Subject ID {subject.subject_id} - Student ID {student.student_id} - {student.name}")        
+        return "\n".join(result)
 
     def partition_pass_fail(self):
+        self.refresh_db()
         pass_students = [s for s in self.students if s.average_mark() >= 50]
         fail_students = [s for s in self.students if s.average_mark() < 50]
 
@@ -47,6 +54,7 @@ class AdminController:
         return "\n".join(result)
 
     def remove_student(self, student_id):
+        self.refresh_db()
         initial_count = len(self.students)
         self.students = [s for s in self.students if s.student_id != student_id]
         self.db.students = self.students
@@ -56,6 +64,7 @@ class AdminController:
         return "Student not found."
 
     def clear_students(self):
+        self.refresh_db()
         self.students = []
         self.db.students = []
         self.db.save()
@@ -64,4 +73,8 @@ class AdminController:
     def logout(self):
         self.logged_in_admin = None
         return "Logged out successfully."
+    
+    def refresh_db(self):
+        self.db.load()
+        self.students = self.db.students
 

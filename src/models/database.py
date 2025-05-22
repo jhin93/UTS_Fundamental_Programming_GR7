@@ -4,7 +4,7 @@ from models.student import Student
 from models.admin import Admin
 
 class Database:
-    def __init__(self, file_path='student.data'):
+    def __init__(self, file_path='data/students.data'):
         self.file_path = file_path
         self.students = []
         self.admins = [Admin("admin1", "admin1@university.com", "admin1pass"),
@@ -18,7 +18,7 @@ class Database:
                 self.students = [Student.from_dict(d) for d in data.get("students", [])]
 
     def save(self):
-        with open(self.file_path, 'w') as f:
+        with open(self.file_path, 'w+') as f:
             data = {
                 "students": [s.to_dict() for s in self.students],
                 # "admins": [a.to_dict() for a in self.admins]
