@@ -16,7 +16,7 @@ class Student:
             return "Cannot enrol in more than 4 subjects."
         subject = Subject()
         self.enrolled_subjects.append(subject)
-        return f"Subject {subject.subject_id} enrolled with mark {subject.mark} ({subject.grade})"
+        return subject
 
     def remove_subject(self, subject_id):
         before = len(self.enrolled_subjects)
