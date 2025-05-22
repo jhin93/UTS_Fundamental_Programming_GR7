@@ -14,39 +14,58 @@ class Student:
         ] if enrolled_subjects else []
 
     def enrol_subject(self):
-        if len(self.enrolled_subjects) >= 4:
-            return "Cannot enrol in more than 4 subjects."
-        subject = Subject()
-        self.enrolled_subjects.append(subject)
-        return f"Subject {subject.subject_id} enrolled with mark {subject.mark} ({subject.grade})"
+        try:
+            if len(self.enrolled_subjects) >= 4:
+                return "Cannot enrol in more than 4 subjects."
+            subject = Subject()
+            self.enrolled_subjects.append(subject)
+            return f"Subject {subject.subject_id} enrolled with mark {subject.mark} ({subject.grade})"
+        except Exception as e:
+            return f"Error enrolling in subject: {e}"
 
     def remove_subject(self, subject_id):
-        before = len(self.enrolled_subjects)
-        self.enrolled_subjects = [
-            s for s in self.enrolled_subjects if s.subject_id != subject_id
-        ]
-        if len(self.enrolled_subjects) < before:
-            return f"Subject {subject_id} removed."
-        return "Subject not found."
+        try:
+            before = len(self.enrolled_subjects)
+            self.enrolled_subjects = [
+                s for s in self.enrolled_subjects if s.subject_id != subject_id
+            ]
+            if len(self.enrolled_subjects) < before:
+                return f"Subject {subject_id} removed."
+            return "Subject not found."
+        except Exception as e:
+            return f"Error removing subject: {e}"
 
     def change_password(self, new_password):
-        if self.password == new_password:
-            return "New password cannot be the same as the old one."
-        self.password = new_password
-        return "Password changed successfully."
+        try:
+            if self.password == new_password:
+                return "New password cannot be the same as the old one."
+            self.password = new_password
+            return "Password changed successfully."
+        except Exception as e:
+            return f"Error changing password: {e}"
 
     def view_enrolment(self):
-        if not self.enrolled_subjects:
-            return "No subjects enrolled."
-        return "\n".join([
-            f"Subject ID: {s.subject_id}, Mark: {s.mark}, Grade: {s.grade}"
-            for s in self.enrolled_subjects
-        ])
-
+        try:
+            if not self.enrolled_subjects:
+                return "No subjects enrolled."
+            return "\n".join([
+                f"Subject ID: {s.subject_id}, Mark: {s.mark}, Grade: {s.grade}"
+                for s in self.enrolled_subjects
+            ])
+        except Exception as e:
+            return f"Error viewing enrolment: {e}"
+        
     def average_mark(self):
-        if not self.enrolled_subjects:
+        try:
+            if not self.enrolled_subjects:
+                return 0
+            return sum(s.mark for s in self.enrolled_subjects) / len(self.enrolled_subjects)
+        except ZeroDivisionError:
+            print("Error: Tried to divide by zero when calculating average mark.")
             return 0
-        return sum(s.mark for s in self.enrolled_subjects) / len(self.enrolled_subjects)
+        except Exception as e:
+            print(f"Unexpected error calculating average mark: {e}")
+            return 0
 
     def to_dict(self):
         return {

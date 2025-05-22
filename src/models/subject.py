@@ -9,16 +9,27 @@ class Subject:
         self.grade = self.calculate_grade()
 
     def calculate_grade(self):
-        if self.mark >= 85:
-            return 'HD'
-        elif self.mark >= 75:
-            return 'D'
-        elif self.mark >= 65:
-            return 'C'
-        elif self.mark >= 50:
-            return 'P'
-        else:
-            return 'F'
+        try:
+            if not hasattr(self, 'mark'):
+                raise AttributeError("Student object has no attribute 'mark'.")
+            
+            if not isinstance(self.mark, (int, float)):
+                raise TypeError(f"Mark must be a number, got {type(self.mark)} instead.")
+            
+            if self.mark >= 85:
+                return 'HD'
+            elif self.mark >= 75:
+                return 'D'
+            elif self.mark >= 65:
+                return 'C'
+            elif self.mark >= 50:
+                return 'P'
+            else:
+                return 'F'
+            
+        except Exception as e:
+            print(f"Unexpected error in grade calculation: {e}")
+            return 'Invalid'
 
     def to_dict(self):
         return {

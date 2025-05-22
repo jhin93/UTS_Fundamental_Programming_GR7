@@ -23,11 +23,17 @@ class BaseView:
         StudentView class till now.
         
         """
-        response = input("Try again? (y/n): ").lower()
-        if response == 'y':
-            return True
-        elif response == 'n':
+        try:
+            response = input("Try again? (y/n): ").lower()
+            if response == 'y':
+                return True
+            elif response == 'n':
+                return False
+            else:
+                print("Invalid option. Please enter 'y' or 'n'.")
+                BaseView.retry()
+        except (EOFError, KeyboardInterrupt):
+            print("\nError in getting input response. Exiting.")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
             return False
-        else:
-            print("Invalid option. Please enter 'y' or 'n'.")
-            BaseView.retry()

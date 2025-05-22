@@ -36,13 +36,6 @@
             "enrolled_subjects": []
         },
         {
-            "student_id": "582825",
-            "name": "Jane Smith",
-            "email": "jane@university.com",
-            "password": "Janet2025",
-            "enrolled_subjects": []
-        },
-        {
             "student_id": "511396",
             "name": "Jerry Maguire",
             "email": "jerry@university.com",
@@ -97,6 +90,13 @@
                     "grade": "F"
                 }
             ]
+        },
+        {
+            "student_id": "664249",
+            "name": "Jane Smith",
+            "email": "jane@university.com",
+            "password": "Janet2020",
+            "enrolled_subjects": []
         }
     ]
 }

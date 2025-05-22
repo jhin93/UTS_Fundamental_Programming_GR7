@@ -9,8 +9,8 @@ class BaseController:
 
     def refresh_db(self):
         """Refresh the database to ensure we have the latest data."""
-        self.database.load()
-        self.students = self.database.students
+        self.db.load()
+        self.students = self.db.students
 
     @abstractmethod
     def login(self, email, password):
