@@ -1,4 +1,3 @@
-from models.database import Database
 from utils.validators import validate_email, validate_password
 from cli.controllers.base import BaseController
 

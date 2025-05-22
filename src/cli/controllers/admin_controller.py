@@ -1,4 +1,3 @@
-from models.database import Database
 from cli.controllers.base import BaseController
 
 class AdminController(BaseController):
