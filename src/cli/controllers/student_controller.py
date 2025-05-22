@@ -1,10 +1,12 @@
 from models.database import Database
 from utils.validators import validate_email, validate_password
+from cli.controllers.base import BaseController
 
-class StudentController:
+class StudentController(BaseController):
     def __init__(self):
-        self.db = Database()
-        self.students = self.db.students
+        super().__init__()
+        # self.db = Database()
+        # self.students = self.db.students
         self.logged_in_student = None
 
     def register(self, name, email, password):
@@ -12,7 +14,6 @@ class StudentController:
             return "Invalid email format."
 
         if not validate_password(password):
-            # print("Invalid password format.")
             return "Invalid password format."
 
         if any(s.email == email for s in self.students):
@@ -20,7 +21,7 @@ class StudentController:
 
         student = self.db.create_student(name, email, password)
         print(f"Registered with ID: {student.student_id}")
-        return True
+        return "Registration successful."
 
     def login(self, email, password):
         for student in self.students:
@@ -51,4 +52,5 @@ class StudentController:
 
     def logout(self):
         self.logged_in_student = None
+        
 

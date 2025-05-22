@@ -1,14 +1,13 @@
 from cli.controllers.student_controller import StudentController
-
-class StudentView:
+from cli.views.base import BaseView
+class StudentView(BaseView):
     def __init__(self):
         self.controller = StudentController()
 
-    def show_main_menu(self):
+    def show_menu(self):
         while True:
             print("\nStudent Menu:\n(r) Register\n(l) Login\n(x) Exit")
             choice = input("Choose: ").lower()
-
             if choice == 'r':
                 self.handle_register()
             elif choice == 'l':
@@ -19,26 +18,29 @@ class StudentView:
                 print("Invalid option.")
 
     def handle_register(self):
-        print("Ensure you have a valid email and password format.")
-        print("(i) Password starts with an upper-case character\n, (ii) Password contains at least five (5) letters\n (iii) Password ends with three (3) or more digits")
+        print("(i) Password starts with an upper-case character\n (ii) Password contains at least five (5) letters\n (iii) Password ends with three (3) or more digits")
         while True:
             name = input("Enter name: ")
             email = input("Enter email: ")
             password = input("Enter password: ")
             result = self.controller.register(name, email, password)
-            if result is True:
-                print("Registration successful.")
+            print(result)
+            if result == "Registration successful.":
                 break
-
+            else:
+                try_again = self.retry()
+                if not try_again:
+                    break
+                
     def handle_login(self):
         email = input("Email: ")
         password = input("Password: ")
         result = self.controller.login(email, password)
         print(result)
         if "Welcome" in result:
-            self.student_dashboard()
+            self.dashboard()
 
-    def student_dashboard(self):
+    def dashboard(self):
         while self.controller.logged_in_student:
             print("\n(c) Change password\n(e) Enrol\n(r) Remove subject\n(s) Show subjects\n(x) Logout")
             choice = input("Choose: ").lower()

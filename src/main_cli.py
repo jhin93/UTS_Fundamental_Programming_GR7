@@ -10,9 +10,9 @@ def main():
         choice = input("Select option: ").lower()
 
         if choice == 's':
-            student_view.show_main_menu()
+            student_view.show_menu()
         elif choice == 'a':
-            admin_view.show_admin_menu()
+            admin_view.show_menu()
         elif choice == 'x':
             break
         else:

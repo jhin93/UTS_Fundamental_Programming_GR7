@@ -20,8 +20,7 @@ class Database:
     def save(self):
         with open(self.file_path, 'w+') as f:
             data = {
-                "students": [s.to_dict() for s in self.students],
-                # "admins": [a.to_dict() for a in self.admins]
+                "students": [s.to_dict() for s in self.students]
             }
             json.dump(data, f, indent=4)
 

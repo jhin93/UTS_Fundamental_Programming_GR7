@@ -1,11 +1,12 @@
 from models.database import Database
-from models.admin import Admin
+from cli.controllers.base import BaseController
 
-class AdminController:
+class AdminController(BaseController):
     def __init__(self):
-        self.db = Database()
+        super().__init__()
+        # self.db = Database()
         self.admins = self.db.load_admins()
-        self.students = self.db.students
+        # self.students = self.db.students
         self.logged_in_admin = None
 
     def login(self, email, password):

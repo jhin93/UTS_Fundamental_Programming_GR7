@@ -28,8 +28,6 @@ class Student:
         return "Subject not found."
 
     def change_password(self, new_password):
-        print("Old password:", repr(self.password))
-        print("New password:", repr(new_password))
         if self.password == new_password:
             return "New password cannot be the same as the old one."
         self.password = new_password

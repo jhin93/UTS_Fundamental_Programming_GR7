@@ -1,29 +1,22 @@
 from cli.controllers.admin_controller import AdminController
+from cli.views.base import BaseView
 
-class AdminView:
+class AdminView(BaseView):
     def __init__(self):
         self.controller = AdminController()
 
-    def show_admin_menu(self):
+    def show_menu(self):
         email = input("Email: ")
         password = input("Password: ")
         login_result = self.controller.login(email, password)
         print(login_result)
+        if "Welcome" in login_result:
+            self.dashboard()
 
-        if "Welcome" not in login_result:
-            return
-
+    def dashboard(self):
         while self.controller.logged_in_admin:
-            print("\nAdmin Menu:")
-            print("(s) Show all students")
-            print("(g) Group by grade")
-            print("(p) Partition Pass/Fail")
-            print("(r) Remove student")
-            print("(c) Clear all students")
-            print("(x) Logout")
-
-            choice = input("Choose: ").lower()
-
+            print("Admin Menu:\n(s) Show all students\n(g) Group by grade\n(p) Partition Pass/Fail\n(r) Remove student\n(c) Clear all students\n(x) Logout\n")
+            choice = input("Choose: \n").lower()
             if choice == 's':
                 print(self.controller.list_students())
             elif choice == 'g':
