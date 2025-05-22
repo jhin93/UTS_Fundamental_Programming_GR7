@@ -62,7 +62,6 @@ class LoginView:
         self.password_entry.pack()
 
         tk.Button(self.parent, text="Login", width=20, command=self.login_action).pack(pady=7)
-        tk.Button(self.parent, text="Register", width=20, command=self.show_register_callback).pack()
 
     def clear(self):
         for widget in self.parent.winfo_children():
