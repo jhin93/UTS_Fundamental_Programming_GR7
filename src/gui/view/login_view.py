@@ -23,8 +23,10 @@ def load_students():
         return data.get('students', [])
 
 def save_students(students):
+    # Convert to dictionary format if needed
+    students_data = [s.to_dict() if hasattr(s, 'to_dict') else s for s in students]
     with open(DATA_FILE, 'w') as f:
-        json.dump({"students": [s.to_dict() for s in students]}, f, indent=4)
+        json.dump({"students": students_data}, f, indent=4)
 
 def find_student(email, password):
     students = load_students()
