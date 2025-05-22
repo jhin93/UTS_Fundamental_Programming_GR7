@@ -2,11 +2,11 @@ from models.database import Database
 from cli.controllers.base import BaseController
 
 class AdminController(BaseController):
+    """Admin Controller for managing student records. This controller handles the admin functionalities such as
+    listing students, grouping by grade, partitioning pass/fail, removing students, and clearing all student records."""
     def __init__(self):
         super().__init__()
-        # self.db = Database()
         self.admins = self.db.load_admins()
-        # self.students = self.db.students
         self.logged_in_admin = None
 
     def login(self, email, password):
@@ -74,8 +74,4 @@ class AdminController(BaseController):
     def logout(self):
         self.logged_in_admin = None
         return "Logged out successfully."
-    
-    def refresh_db(self):
-        self.db.load()
-        self.students = self.db.students
 

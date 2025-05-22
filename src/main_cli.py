@@ -2,6 +2,7 @@ from cli.views.student_view import StudentView
 from cli.views.admin_view import AdminView
 
 def main():
+    """Main function to run the CLI application."""
     student_view = StudentView()
     admin_view = AdminView()
 

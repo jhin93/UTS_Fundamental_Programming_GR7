@@ -1,7 +1,8 @@
 from abc import abstractmethod
 
 class BaseView:
-    """Base class for all views in the CLI application."""
+    """Base class for all views in the CLI application. This class serves as a template for
+    specific views like StudentView and AdminView. It defines the basic structure and methods"""
     def __init__(self):
         pass
     

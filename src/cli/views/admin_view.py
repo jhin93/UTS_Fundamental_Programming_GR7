@@ -2,10 +2,13 @@ from cli.controllers.admin_controller import AdminController
 from cli.views.base import BaseView
 
 class AdminView(BaseView):
+    """Admin View for managing student records. This has essentially one dashboard menu after login, since the
+    requirements doesn't require registration of admin users. The admin user is assumed to be already registered in the system."""
     def __init__(self):
         self.controller = AdminController()
 
     def show_menu(self):
+        """Essentially the login menu for the admin user. The admin user is assumed to be already registered in the system."""
         email = input("Email: ")
         password = input("Password: ")
         login_result = self.controller.login(email, password)
@@ -14,6 +17,7 @@ class AdminView(BaseView):
             self.dashboard()
 
     def dashboard(self):
+        """The dashboard menu for the admin user. This is the main menu interface for the admin user to manage student records."""
         while self.controller.logged_in_admin:
             print("Admin Menu:\n(s) Show all students\n(g) Group by grade\n(p) Partition Pass/Fail\n(r) Remove student\n(c) Clear all students\n(x) Logout\n")
             choice = input("Choose: \n").lower()

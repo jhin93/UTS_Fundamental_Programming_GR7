@@ -2,6 +2,8 @@ import random
 from models.subject import Subject
 
 class Student:
+    """Student class representing a student in the system. This class handles the student's personal information,
+    enrolled subjects"""
     def __init__(self, name, email, password, student_id=None, enrolled_subjects=None):
         self.student_id = student_id or f"{random.randint(1, 999999):06}"
         self.name = name

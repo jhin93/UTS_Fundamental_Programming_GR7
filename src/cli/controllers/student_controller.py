@@ -3,10 +3,10 @@ from utils.validators import validate_email, validate_password
 from cli.controllers.base import BaseController
 
 class StudentController(BaseController):
+    """Student Controller for managing student records. This controller handles the student functionalities such as
+    enrolling in subjects, changing password, and viewing enrolment."""
     def __init__(self):
         super().__init__()
-        # self.db = Database()
-        # self.students = self.db.students
         self.logged_in_student = None
 
     def register(self, name, email, password):

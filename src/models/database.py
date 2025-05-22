@@ -4,6 +4,8 @@ from models.student import Student
 from models.admin import Admin
 
 class Database:
+    """Database class for managing student records and admin accounts. This class handles the loading and saving of
+    student data to a JSON file, as well as the creation of new student records and admin accounts."""
     def __init__(self, file_path='data/students.data'):
         self.file_path = file_path
         self.students = []

@@ -1,6 +1,8 @@
 import random
 
 class Subject:
+    """Subject class representing a subject in the system. This model class is used to manage the subject's
+    information such as subject ID, mark, and grade. It also provides methods to convert the subject object"""
     def __init__(self, subject_id=None, mark=None):
         self.subject_id = subject_id or f"{random.randint(1, 999):03}"
         self.mark = mark if mark is not None else random.randint(25, 100)
