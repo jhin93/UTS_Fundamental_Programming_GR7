@@ -1,7 +1,7 @@
 import tkinter as tk
 import sys
 import os
-import pickle
+import json
 # Add the parent directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from models.student import Student
@@ -18,18 +18,20 @@ DATA_FILE = os.path.join(DATA_DIR, 'students.data')
 def load_students():
     if not os.path.exists(DATA_FILE):
         return []
-    with open(DATA_FILE, 'rb') as f:
-        return pickle.load(f)
+    with open(DATA_FILE, 'r') as f:
+        data = json.load(f)
+        return data.get('students', [])
 
 def save_students(students):
-    with open(DATA_FILE, 'wb') as f:
-        pickle.dump(students, f)
+    with open(DATA_FILE, 'w') as f:
+        json.dump({"students": [s.to_dict() for s in students]}, f, indent=4)
 
 def find_student(email, password):
     students = load_students()
     for s in students:
-        if s.email == email and s.password == password:
-            return s
+        student = Student.from_dict(s)
+        if student.email == email and student.password == password:
+            return student
     return None
 
 class LoginView:
