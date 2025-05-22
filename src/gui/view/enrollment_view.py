@@ -14,7 +14,7 @@ class EnrollmentView:
         self.clear()
         tk.Label(self.parent, text=f"Welcome, {self.student.name}", font=("Arial", 15)).pack(pady=10)
         tk.Button(self.parent, text="Enrol in New Subject", width=23, command=self.enrol_subject_action).pack(pady=5)
-        tk.Button(self.parent, text="View My Subjects", width=23, command=self.view_subjects).pack(pady=5)
+        tk.Button(self.parent, text="View Subjects", width=23, command=self.view_subjects).pack(pady=5)
         tk.Button(self.parent, text="Logout", width=23, command=self.logout_callback).pack(pady=5)
 
     def clear(self):
