@@ -1,3 +1,32 @@
 {
-    "students": []
+    "students": [
+        {
+            "student_id": "333508",
+            "name": "Ruben Thomas",
+            "email": "ruben@university.com",
+            "password": "Rubenth1999",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "783",
+                    "mark": 87,
+                    "grade": "HD"
+                },
+                {
+                    "subject_id": "482",
+                    "mark": 53,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "772",
+                    "mark": 81,
+                    "grade": "D"
+                },
+                {
+                    "subject_id": "034",
+                    "mark": 56,
+                    "grade": "P"
+                }
+            ]
+        }
+    ]
 }
