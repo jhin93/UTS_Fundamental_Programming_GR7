@@ -27,6 +27,76 @@
                     "grade": "P"
                 }
             ]
+        },
+        {
+            "student_id": "323076",
+            "name": "rocky boy",
+            "email": "rockyboy@university.com",
+            "password": "Rockyboy1999",
+            "enrolled_subjects": []
+        },
+        {
+            "student_id": "511396",
+            "name": "Jerry Maguire",
+            "email": "jerry@university.com",
+            "password": "JerryMag2020",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "130",
+                    "mark": 40,
+                    "grade": "F"
+                },
+                {
+                    "subject_id": "218",
+                    "mark": 85,
+                    "grade": "HD"
+                },
+                {
+                    "subject_id": "904",
+                    "mark": 44,
+                    "grade": "F"
+                },
+                {
+                    "subject_id": "758",
+                    "mark": 83,
+                    "grade": "D"
+                }
+            ]
+        },
+        {
+            "student_id": "155181",
+            "name": "Charlemagne",
+            "email": "charles@university.com",
+            "password": "Charlemagne2025",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "051",
+                    "mark": 58,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "936",
+                    "mark": 92,
+                    "grade": "HD"
+                },
+                {
+                    "subject_id": "976",
+                    "mark": 56,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "100",
+                    "mark": 44,
+                    "grade": "F"
+                }
+            ]
+        },
+        {
+            "student_id": "664249",
+            "name": "Jane Smith",
+            "email": "jane@university.com",
+            "password": "Janet2020",
+            "enrolled_subjects": []
         }
     ]
 }
