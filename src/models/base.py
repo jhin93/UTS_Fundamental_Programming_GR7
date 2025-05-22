@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 import random
 class User:
     """ A simple base class for all users."""
@@ -10,11 +9,17 @@ class User:
     def __studentID_generator(self):
         return self.email.split('@')[0] + str(random.randint(1000, 9999))
     
-class Student(User):
-    """ A student class that inherits from the User class"""
-    def __init__(self, name, email, password):
-        super().__init__(name, email, password)
-        self.student_id = 
+    def login():
+        email = input("Email: ")
+        password = input("Password: ")
+
+        students = load_students()
+        for s in students:
+            if s.email == email and s.password == password:
+                print(f"Welcome {s.name}!\n")
+                student_menu(s, students)
+                return
+        print("Invalid credentials.")
         
-    def __str__(self):
-        return f"Student ID: {self.student_id},\n Name: {self.name},\n Email: {self.email}"
+    
+    
