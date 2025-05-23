@@ -35,23 +35,31 @@ A comprehensive Python-based interactive university enrollment system with both 
 ## 🚀 Installation & Running
 
 1. Clone or unzip the project folder.
+```
+git clone https://github.com/jhin93/UTS_Fundamental_Programming_GR7.git
+```
 2. (Optional) Create and activate a virtual environment:
-   
+   ```
    python -m venv venv
    source venv/bin/activate   # macOS/Linux
    venv\Scripts\activate      # Windows
+   ```
    
-3. Run the application in either mode:
+3. Run the application in either mode in the src/ folder:
    bash
    # Command-line interface:
-   python main_cli.py
-   
+   ```bash
+    python3 main_cli.py
+    ```
    # Graphical interface:
-   python GUIUniApp/main_gui.py 
+   ```
+   python3 main_gui.py
+   ``` 
    
 
 ## 📁 Project Structure
 
+``` bash
 university_app/
 ├── cli/
 │   ├── controllers/
@@ -81,7 +89,7 @@ university_app/
 ├── data/
 │   └── students.data
 └── README.md
-
+```
 
 
 ## 🎯 CLI Usage
@@ -90,8 +98,9 @@ From the project root:
 
 bash
 # Launch the CLI application:
-python main_cli.py
-
+```
+python3 main_cli.py
+```
 
 ### University System Menu
 - *Admin (A)*: Access admin functions
@@ -120,10 +129,10 @@ python main_cli.py
 
 ## 🖥 GUI Usage
 
-bash
+```bash
 # Launch the GUI application:
-python main_gui.py 
-
+python3 main_gui.py 
+```
 
 ### Login Window
 - Enter registered email and password
