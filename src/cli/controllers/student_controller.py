@@ -50,7 +50,6 @@ class StudentController(BaseController):
 
     def enrol_subject(self):
         try:
-            self.refresh_db()
             result = self.logged_in_student.enrol_subject()
             self.db.save()
             return result
@@ -59,7 +58,6 @@ class StudentController(BaseController):
 
     def remove_subject(self, subject_id):
         try:
-            self.refresh_db()
             result = self.logged_in_student.remove_subject(subject_id)
             self.db.save()
             return result
@@ -68,7 +66,6 @@ class StudentController(BaseController):
 
     def view_enrolment(self):
         try:
-            self.refresh_db()
             return self.logged_in_student.view_enrolment()
         except Exception as e:
             return f"Error viewing enrolment: {e}"
@@ -80,4 +77,3 @@ class StudentController(BaseController):
         except Exception as e:
             return f"Logout failed: {e}"
         
-

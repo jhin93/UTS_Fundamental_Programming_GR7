@@ -97,6 +97,62 @@
             "email": "jane@university.com",
             "password": "Janet2020",
             "enrolled_subjects": []
+        },
+        {
+            "student_id": "633125",
+            "name": "testing123",
+            "email": "testing@university.com",
+            "password": "Testing234",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "543",
+                    "mark": 69,
+                    "grade": "C"
+                },
+                {
+                    "subject_id": "392",
+                    "mark": 53,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "518",
+                    "mark": 76,
+                    "grade": "D"
+                },
+                {
+                    "subject_id": "085",
+                    "mark": 45,
+                    "grade": "F"
+                }
+            ]
+        },
+        {
+            "student_id": "866406",
+            "name": "Problems",
+            "email": "problem@university.com",
+            "password": "Problem123",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "009",
+                    "mark": 94,
+                    "grade": "HD"
+                },
+                {
+                    "subject_id": "175",
+                    "mark": 68,
+                    "grade": "C"
+                },
+                {
+                    "subject_id": "907",
+                    "mark": 80,
+                    "grade": "D"
+                },
+                {
+                    "subject_id": "345",
+                    "mark": 26,
+                    "grade": "F"
+                }
+            ]
         }
     ]
 }
