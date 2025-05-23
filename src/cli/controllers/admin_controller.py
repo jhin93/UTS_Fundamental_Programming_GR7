@@ -21,7 +21,6 @@ class AdminController(BaseController):
 
     def list_students(self):
         try:
-            self.refresh_db()
             if not self.students:
                 return "No students found."
             return "\n".join([
@@ -33,7 +32,6 @@ class AdminController(BaseController):
 
     def group_by_grade(self):
         try:
-            self.refresh_db()
             grade_groups = {}
 
             for student in self.students:
@@ -56,7 +54,6 @@ class AdminController(BaseController):
 
     def partition_pass_fail(self):
         try:
-            self.refresh_db()
             pass_students = [s for s in self.students if s.average_mark() >= 50]
             fail_students = [s for s in self.students if s.average_mark() < 50]
 
@@ -70,7 +67,6 @@ class AdminController(BaseController):
 
     def remove_student(self, student_id):
         try:
-            self.refresh_db()
             initial_count = len(self.students)
             self.students = [s for s in self.students if s.student_id != student_id]
             self.db.students = self.students
@@ -83,7 +79,6 @@ class AdminController(BaseController):
 
     def clear_students(self):
         try:
-            self.refresh_db()
             self.students = []
             self.db.students = []
             self.db.save()

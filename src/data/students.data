@@ -29,13 +29,6 @@
             ]
         },
         {
-            "student_id": "323076",
-            "name": "rocky boy",
-            "email": "rockyboy@university.com",
-            "password": "Rockyboy1999",
-            "enrolled_subjects": []
-        },
-        {
             "student_id": "511396",
             "name": "Jerry Maguire",
             "email": "jerry@university.com",
@@ -151,6 +144,57 @@
                     "subject_id": "345",
                     "mark": 26,
                     "grade": "F"
+                }
+            ]
+        },
+        {
+            "student_id": "271303",
+            "name": "praveer2",
+            "email": "praveer2@university.com",
+            "password": "Praveer345",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "323",
+                    "mark": 57,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "524",
+                    "mark": 25,
+                    "grade": "F"
+                },
+                {
+                    "subject_id": "675",
+                    "mark": 29,
+                    "grade": "F"
+                }
+            ]
+        },
+        {
+            "student_id": "658329",
+            "name": "ruben1",
+            "email": "ruben1@university.com",
+            "password": "Ruben123",
+            "enrolled_subjects": [
+                {
+                    "subject_id": "040",
+                    "mark": 60,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "854",
+                    "mark": 41,
+                    "grade": "F"
+                },
+                {
+                    "subject_id": "855",
+                    "mark": 64,
+                    "grade": "P"
+                },
+                {
+                    "subject_id": "530",
+                    "mark": 80,
+                    "grade": "D"
                 }
             ]
         }
