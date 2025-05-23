@@ -39,7 +39,7 @@ class StudentController(BaseController):
 
     def change_password(self, new_password: str):
         try:
-            self.refresh_db()
+            # self.refresh_db()
             if not validate_password(new_password):
                 return "Invalid password format."
             status = self.logged_in_student.change_password(new_password.strip())
