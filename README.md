@@ -134,17 +134,6 @@ python main_gui.py
 - *View subjects*: See list of enrolled subjects
 - *Logout*: Save changes and return to login
 
-## ✅ Automated Tests
-
-The project includes comprehensive tests using pytest:
-
-bash
-# Run all tests:
-pytest
-
-# Run with detailed output:
-pytest -v
-
 
 
 
