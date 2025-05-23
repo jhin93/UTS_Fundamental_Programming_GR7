@@ -24,7 +24,7 @@ A comprehensive Python-based interactive university enrollment system with both 
   - Grade-based grouping and analysis
   - Pass/fail partitioning
 - *Data Persistence*: JSON-based storage system
-- *MGUI*: Interface with Student dashboard 
+- *GUI*: Interface with Student dashboard 
 - *Enhanced CLI*: Enhanced university system through terminal interface
 
 ## 📋 Requirements
