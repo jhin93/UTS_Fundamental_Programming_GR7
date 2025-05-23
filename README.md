@@ -29,7 +29,7 @@ A comprehensive Python-based interactive university enrollment system with both 
 
 ## 📋 Requirements
 
-- Python 3.13.3 (tested on 3.13.3)
+- Python 3.12.0 (tested on 3.12.0)
 - No external packages required beyond the standard library
 
 ## 🚀 Installation & Running
