@@ -1,7 +1,7 @@
 import tkinter as tk
-from view.login_view import LoginView, RegisterView
-from view.enrollment_view import EnrollmentView
-from view.subject_view import SubjectView
+from gui.view.login_view import LoginView, RegisterView
+from gui.view.enrollment_view import EnrollmentView
+from gui.view.subject_view import SubjectView
 
 class GUIController(tk.Tk):
     def __init__(self):
