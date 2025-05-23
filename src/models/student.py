@@ -19,7 +19,7 @@ class Student:
                 return "Cannot enrol in more than 4 subjects."
             subject = Subject()
             self.enrolled_subjects.append(subject)
-            return subject
+            return f"Subject {subject.subject_id} enrolled with mark {subject.mark} ({subject.grade})"
         except Exception as e:
             return f"Error enrolling in subject: {e}"
 
