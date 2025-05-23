@@ -29,7 +29,7 @@ A comprehensive Python-based interactive university enrollment system with both 
 
 ## 📋 Requirements
 
-- Python 3.12.0 (tested on 3.12.0)
+- Python 3.12.6 (tested on 3.12.6)
 - No external packages required beyond the standard library
 
 ## 🚀 Installation & Running
@@ -83,7 +83,8 @@ university_app/
 ├── models/
 │   ├── student.py
 │   ├── subject.py
-│   └── database.py
+│   ├── database.py
+|   └── admin.py
 ├── utils/
 │   └── validators.py
 ├── data/
