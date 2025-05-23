@@ -12,6 +12,21 @@ A comprehensive Python-based interactive university enrollment system with both 
 - *CLIUniApp*: Command-line interface for Student and Admin subsystems handling the entire Uni App
 - *GUIUniApp*: Tkinter GUI for student login, enrollment, and subject display for each student
 
+
+## Admin Credentials
+Since admin does not have a registration module, we have hardcoded these admin credentials in our `database.py` file. Use this for login access to admin system.
+
+```
+name : "admin1"
+email: "admin1@university.com"
+pwd: "admin1pass"
+
+name:"admin2"
+email: "admin2@university.com"
+pwd: "admin2pass"
+
+```
+
 ## ✨ Features at a Glance
 
 - *User Authentication*: Secure login/registration with validation
