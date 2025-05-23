@@ -1,5 +1,5 @@
 import tkinter as tk
-from gui.view.login_view import LoginView, RegisterView
+from gui.view.login_view import LoginView
 from gui.view.enrollment_view import EnrollmentView
 from gui.view.subject_view import SubjectView
 
@@ -13,10 +13,7 @@ class GUIController(tk.Tk):
 
     def show_login(self):
         self.logged_in_student = None
-        LoginView(self, self.show_register, self.show_enrolment)
-
-    def show_register(self):
-        RegisterView(self, self.show_login)
+        LoginView(self, self.show_enrolment)
 
     def show_enrolment(self, student):
         self.logged_in_student = student
