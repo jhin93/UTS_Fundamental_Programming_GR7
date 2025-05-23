@@ -62,7 +62,7 @@ university_app/
 │   │   ├── student_view.py
 │   │   ├── admin_view.py
 │   │   └── university_view.py
-│   └── main.py
+│   └── main_cli.py
 ├── gui/
 │   ├── views/
 │   │   ├── login_view.py
@@ -71,7 +71,7 @@ university_app/
 │   │   └── exception_view.py
 │   ├── controllers/
 │   │   └── gui_controller.py
-│   └── main.py
+│   └── main_gui.py
 ├── models/
 │   ├── student.py
 │   ├── subject.py
