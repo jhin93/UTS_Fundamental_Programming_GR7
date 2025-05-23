@@ -77,8 +77,7 @@ university_app/
 │   ├── subject.py
 │   └── database.py
 ├── utils/
-│   ├── validators.py
-│   └── id_generator.py
+│   └── validators.py
 ├── data/
 │   └── students.data
 └── README.md
