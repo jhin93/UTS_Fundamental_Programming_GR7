@@ -52,6 +52,8 @@ A comprehensive Python-based interactive university enrollment system with both 
 
 ## 📁 Project Structure
 
+<img width="294" alt="readme" src="https://github.com/user-attachments/assets/be843883-f943-4660-893c-df765aea89f0" />
+
 
 university_app/
 ├── cli/
